@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home: OperationsPage()));
+
+class OperationsPage extends StatefulWidget {
+  @override
+  _OperationsPageState createState() => _OperationsPageState();
+}
+
+class _OperationsPageState extends State<OperationsPage> {
+  TextEditingController controller = TextEditingController();
+  String result = "";
+
+  bool isPrime(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i <= n ~/ 2; i++) {
+      if (n % i == 0) return false;
+    }
+    return true;
+  }
+
+  String fibonacci(int n) {
+    int a = 0, b = 1;
+    String res = "$a $b ";
+    for (int i = 2; i < n; i++) {
+      int c = a + b;
+      res += "$c ";
+      a = b;
+      b = c;
+    }
+    return res;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int num = int.tryParse(controller.text) ?? 0;
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Operations")),
+      body: Column(
+        children: [
+          TextField(controller: controller, keyboardType: TextInputType.number),
+
+          Wrap(
+            spacing: 10,
+            children: [
+              ElevatedButton(
+                child: Text("Leap Year"),
+                onPressed: () {
+                  setState(() {
+                    result = (num % 4 == 0) ? "Leap Year" : "Not Leap Year";
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text("Even/Odd"),
+                onPressed: () {
+                  setState(() {
+                    result = (num % 2 == 0) ? "Even" : "Odd";
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text("Prime"),
+                onPressed: () {
+                  setState(() {
+                    result = isPrime(num) ? "Prime" : "Not Prime";
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text("Palindrome"),
+                onPressed: () {
+                  String s = controller.text;
+                  setState(() {
+                    result = (s == s.split('').reversed.join())
+                        ? "Palindrome"
+                        : "Not Palindrome";
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text("Factorial"),
+                onPressed: () {
+                  int fact = 1;
+                  for (int i = 1; i <= num; i++) fact *= i;
+                  setState(() {
+                    result = "Factorial: $fact";
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text("Fibonacci"),
+                onPressed: () {
+                  setState(() {
+                    result = fibonacci(num);
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Text(result, style: TextStyle(fontSize: 18))
+        ],
+      ),
+    );
+  }
+}
