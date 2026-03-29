@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home: DropPage()));
+
+class DropPage extends StatefulWidget {
+  @override
+  _DropPageState createState() => _DropPageState();
+}
+
+class _DropPageState extends State<DropPage> {
+  String selected = "Google";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Dropdown Navigation")),
+      body: Column(
+        children: [
+          DropdownButton(
+            value: selected,
+            items: ["Google", "Yahoo", "Gmail", "Login"].map((e) {
+              return DropdownMenuItem(value: e, child: Text(e));
+            }).toList(),
+            onChanged: (val) => setState(() => selected = val!),
+          ),
+
+          ElevatedButton(
+            child: Text("Go"),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Page(name: selected),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class Page extends StatelessWidget {
+  final String name;
+  Page({required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(name)),
+      body: Center(child: Text("Welcome to $name")),
+    );
+  }
+}
