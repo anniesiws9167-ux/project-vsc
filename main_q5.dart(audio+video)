@@ -1,0 +1,29 @@
+audioplayers: ^5.2.0
+video_player: ^2.7.0
+
+  import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+void main() => runApp(MaterialApp(home: MediaPage()));
+
+class MediaPage extends StatelessWidget {
+  final player = AudioPlayer();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Media Player")),
+      body: Column(
+        children: [
+          ElevatedButton(
+            child: Text("Play Audio"),
+            onPressed: () {
+              player.play(AssetSource('audio.mp3'));
+            },
+          ),
+          Text("Video can be added using video_player package")
+        ],
+      ),
+    );
+  }
+}
